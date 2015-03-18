@@ -1,6 +1,6 @@
 # Daisy
 
-## Daisy is a *daisy-chainable* JavaScript money calculator.
+Daisy is a *daisy-chainable* JavaScript money calculator.
 
 ```javascript
 var tax = 1.45;
