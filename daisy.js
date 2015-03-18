@@ -55,6 +55,13 @@ var daisy = (function(){
 					message: '\'' + culprit + '\' is not a valid number',
 					toString: function(){ return name + this.message; }
 				};
+			},
+			emptySet: function(){
+				return {
+					name: name,
+					message: 'cannot operate on empty set',
+					toString: function(){ return name + this.message; }
+				};
 			}
 		};
 	}());
@@ -102,10 +109,12 @@ var daisy = (function(){
 	};
 
 	Set.prototype.sum = function(){
+		if (this.currentSet.length === 0) { throw errors.emptySet(); }
 		return new Computation(this.currentSet.reduce(add));
 	};
 
 	Set.prototype.average = function(){
+		if (this.currentSet.length === 0) { throw errors.emptySet(); }
 		var value = this.currentSet.reduce(add) / this.currentSet.length;
 		return new Computation(value);
 	};

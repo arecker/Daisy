@@ -165,33 +165,65 @@ describe('daisy', function(){
 
 	describe('exceptions', function(){
 
-		it('should throw an error during plus with a bad value', function(){
+		var passIfThrows = function(func, expectedMessage){
+			var errored = false,
+				actualMessage;
 			try {
-				daisy('DJ KHALED').plus(2);
-			} catch (e){
-				expect(e.message).toBe('\'DJ KHALED\' is not a valid number');
+				func();
+			} catch(e){
+				errored = true;
+				actualMessage = e.message;
 			}
+			expect(errored).toBe(true);
+			expect(actualMessage).toBe(expectedMessage);
+		};
+
+		var failIfThrows = function(func){
+			var errored = false;
+			try { func(); } catch(e){ errored = true; }
+			expect(errored).toBe(false);
+		};
+
+		it('should throw an error during plus with a bad value', function(){
+			passIfThrows(function(){
+				daisy('DJ KHALED').plus(2);
+			}, '\'DJ KHALED\' is not a valid number');
 		});
 
 		it('should throw an error during minus with bad value', function(){
-			try {
+			passIfThrows(function(){
 				daisy('3').minus('baby you smart');
-			} catch (e){
-				expect(e.message).toBe('\'baby you smart\' is not a valid number');
-			}
+			}, '\'baby you smart\' is not a valid number');
 		});
 
 		it('should throw an error during equals with a bad value', function(){
-			try {
+			passIfThrows(function(){
 				daisy('say mai naaaaaame').equals();
-			} catch (e){
-				expect(e.message).toBe('\'say mai naaaaaame\' is not a valid number');
-			}
+			}, '\'say mai naaaaaame\' is not a valid number');
 		});
 
 		it('should not throw an error during init with bad value', function(){
-			var result = daisy('we the best');
-			expect(true).toBe(true); // if you got here, you are good.
+			failIfThrows(function(){
+				var result = daisy('we the best');
+			});
+		});
+
+		it('should throw an error if summing an empty set', function(){
+			passIfThrows(function(){
+				daisy([]).sum();
+			}, 'cannot operate on empty set');
+		});
+
+		it('should throw an error if averaging an empty set', function(){
+			passIfThrows(function(){
+				daisy([]).average();
+			}, 'cannot operate on empty set');
+		});
+
+		it('should not throw an error during init with empty set', function(){
+			failIfThrows(function(){
+				daisy([]);
+			});
 		});
 
 	});
