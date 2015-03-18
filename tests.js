@@ -153,7 +153,7 @@ describe('daisy', function(){
 			}
 		});
 
-		it('shoudl not throw an error during init with bad value', function(){
+		it('should not throw an error during init with bad value', function(){
 			var result = daisy('we the best');
 			expect(true).toBe(true); // if you got here, you are good.
 		});

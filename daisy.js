@@ -5,6 +5,8 @@ var daisy = (function(){
 		return {
 			notANumber: function(culprit){
 				return {
+					name: name,
+					culprit: culprit,
 					message: '\'' + culprit + '\' is not a valid number',
 					toString: function(){ return name + this.message; }
 				};
