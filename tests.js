@@ -127,6 +127,42 @@ describe('daisy', function(){
 
 	});
 
+	describe('sets', function(){
+
+		describe('sum', function(){
+
+			it('should add an array of positive integers', function(){
+				var actual = daisy([1, 2, 3]).sum().equals();
+				expect(actual).toBe('6.00');
+			});
+
+			it('should sum an array of negative numbers and round', function(){
+				var actual = daisy([
+					-14.2,
+					2.001,
+					'-12.1'
+				]).sum().equals();
+				expect(actual).toBe('-24.30');
+			});
+
+		});
+
+		describe('average', function(){
+
+			it('should average an array of positive numbers and round', function(){
+				var actual = daisy([
+					'1.2',
+					'4.45',
+					'234.3',
+					'25'
+				]).average().equals();
+				expect(actual).toBe('66.24');
+			});
+
+		});
+
+	});
+
 	describe('exceptions', function(){
 
 		it('should throw an error during plus with a bad value', function(){

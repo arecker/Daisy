@@ -8,7 +8,6 @@ module.exports = function(grunt){
 				eqnull: true,
 				camelcase: true,
 				forin: true,
-				freeze: true,
 				funcscope: true,
 				latedef: true,
 				maxparams: 5,				
