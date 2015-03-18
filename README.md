@@ -25,6 +25,6 @@ console.log('$' + averageRevenue);
 
 var fee = 0.50,
 	netTotal = daisy(payments).sum().minus(fee).equals();
-console.log('$' + fee);
+console.log('$' + netTotal);
 > '$5.50'
 ```
