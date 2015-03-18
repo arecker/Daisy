@@ -18,13 +18,37 @@ module.exports = function(grunt){
 			pivotal: {
 				src: 'daisy.js',
 				options: {
-					specs: 'tests.js'
+					specs: 'tests.js',
+					template : require("grunt-template-jasmine-istanbul"),
+					templateOptions: {
+						coverage: "reports/coverage.json",
+						report: [
+							{
+								type: "html",
+								options: {
+									dir: "reports/html"
+								}
+							},
+							{
+								type: "lcov",
+								options: {
+									dir: "reports/lcov"
+								}
+							},
+						]
+					},
 				}
 			}
+		},
+
+		coveralls: {
+			options: { force: true },
+			main_target: { src: "reports/lcov/lcov.info" }
 		}
 	});
 
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-jasmine');
+	grunt.loadNpmTasks("grunt-coveralls");
 	grunt.registerTask('default', ['jshint', 'jasmine']);
 };
