@@ -13,7 +13,7 @@ console.log('$' + total);
 ```
 
 Daisy handles sets too!
-``javascript
+```javascript
 var payments = [1, 2, 3];
 var totalRevenue = daisy(payments).sum().equals();
 console.log('$' + totalRevenue);
