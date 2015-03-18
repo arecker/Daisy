@@ -1,5 +1,7 @@
 # Daisy
 
+[![Build Status](http://travis-ci.org/arecker/Daisy.svg?branch=master)](http://travis-ci.org/arecker/Daisy) 
+
 Daisy is a *daisy-chainable* JavaScript money calculator.
 
 ```javascript
