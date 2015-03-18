@@ -28,3 +28,15 @@ var fee = 0.50,
 console.log('$' + netTotal);
 > '$5.50'
 ```
+
+Daisy rounds values and is flexible enough to take any number-like type
+
+```javascript
+var total = daisy('1.437').plus(1).equals();
+console.log('$' + total);
+> '$2.44'
+```
+
+## Building the Project
+
+To build daisy, just clone the project and run ```npm install```.  To execute the linter and tests, just run ```grunt```.
