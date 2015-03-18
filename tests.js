@@ -139,10 +139,23 @@ describe('daisy', function(){
 
 		it('should throw an error during minus with bad value', function(){
 			try {
-				daisy('3').minus('woop');
+				daisy('3').minus('baby you smart');
 			} catch (e){
-				expect(e.message).toBe('\'woop\' is not a valid number');
+				expect(e.message).toBe('\'baby you smart\' is not a valid number');
 			}
+		});
+
+		it('should throw an error during equals with a bad value', function(){
+			try {
+				daisy('say mai naaaaaame').equals();
+			} catch (e){
+				expect(e.message).toBe('\'say mai naaaaaame\' is not a valid number');
+			}
+		});
+
+		it('shoudl not throw an error during init with bad value', function(){
+			var result = daisy('we the best');
+			expect(true).toBe(true); // if you got here, you are good.
 		});
 
 	});
