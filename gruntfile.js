@@ -18,7 +18,8 @@ module.exports = function(grunt){
 			pivotal: {
 				src: 'daisy.js',
 				options: {
-					specs: 'tests.js',
+					specs: 'test/specs.js',
+					vendor: ['test/clobber.js'],
 					template : require("grunt-template-jasmine-istanbul"),
 					templateOptions: {
 						coverage: "reports/coverage.json",
