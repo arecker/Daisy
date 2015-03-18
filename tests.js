@@ -42,6 +42,11 @@ describe('daisy', function(){
 			expect(result.currentVal).toBe('3.14');
 		});
 
+		it('should take an array of numbers', function(){
+			var result = daisy([1, 2, 3, 4, 5]);
+			expect(result.currentSet.length).toBe(5);
+		});
+
 		it('should return an object with an equals() function', function(){
 			var result = daisy();
 			expect(result.equals).not.toBe(undefined);
@@ -72,6 +77,16 @@ describe('daisy', function(){
 			expect(actual).toBe('-19.00');
 		});
 
+		it('should round positive overflows to the nearest cent', function(){
+			var actual = daisy(4.1234).equals();
+			expect(actual).toBe('4.12');
+		});
+
+		it('should round negative overflows to the nearest cent', function(){
+			var actual = daisy('-12.22934').equals();
+			expect(actual).toBe('-12.23');
+		});
+
 	});
 
 	describe('plus', function(){
@@ -84,6 +99,50 @@ describe('daisy', function(){
 		it('should add three positive integers', function(){
 			var actual = daisy(12).plus(14).plus(2).equals();
 			expect(actual).toBe('28.00');
+		});
+
+	});
+
+	describe('minus', function(){
+
+		it('should subtract positive integers and give positive result', function(){
+			var actual = daisy('8').minus(6).equals();
+			expect(actual).toBe('2.00');
+		});
+
+		it('should substract three positive numbers and give positive result', function(){
+			var actual = daisy('14').minus(8).minus(1).equals();
+			expect(actual).toBe('5.00');
+		});
+
+		it('should subtract three positive numbers and give a negative result', function(){
+			var actual = daisy('12').minus('12').minus(3.12).equals();
+			expect(actual).toBe('-3.12');
+		});
+
+		it('should yield a zero just fine', function(){
+			var actual = daisy('45560').minus(45560).equals();
+			expect(actual).toBe('0.00');
+		});
+
+	});
+
+	describe('exceptions', function(){
+
+		it('should throw an error during plus with a bad value', function(){
+			try {
+				daisy('DJ KHALED').plus(2);
+			} catch (e){
+				expect(e.message).toBe('\'DJ KHALED\' is not a valid number');
+			}
+		});
+
+		it('should throw an error during minus with bad value', function(){
+			try {
+				daisy('3').minus('woop');
+			} catch (e){
+				expect(e.message).toBe('\'woop\' is not a valid number');
+			}
 		});
 
 	});
