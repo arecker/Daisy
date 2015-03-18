@@ -226,6 +226,18 @@ describe('daisy', function(){
 			});
 		});
 
+		it('should throw an error if summing a set with a bad value', function(){
+			passIfThrows(function(){
+				daisy(['2', '-2', 'ITUNES NEEDS MORE SERVERS']).sum().equals();
+			}, '\'ITUNES NEEDS MORE SERVERS\' is not a valid number');
+		});
+
+		it('should throw an error if averaging a set with a bad value', function(){
+			passIfThrows(function(){
+				daisy([-2, -1, 0, 2, 'fishsticks', 3]).average();
+			}, '\'fishsticks\' is not a valid number');
+		});
+
 	});
 
 });
