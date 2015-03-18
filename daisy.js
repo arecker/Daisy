@@ -1,3 +1,3 @@
 var daisy = (function(){
-	return {};
+	return function(){};
 });
