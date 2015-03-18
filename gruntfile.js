@@ -1,7 +1,7 @@
 module.exports = function(grunt){
 	grunt.initConfig({
 		jshint: {
-			all: [ 'gruntfile.js', 'daisy.js', 'tests.js'],
+			all: ['daisy.js', 'tests.js'],
 			options: {
 				curly: true,
 				eqeqeq: true,
