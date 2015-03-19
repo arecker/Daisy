@@ -238,10 +238,13 @@ describe('daisy', function(){
 			}, '\'fishsticks\' is not a valid number');
 		});
 
-		it('should throw an error if calling reduce on an empty array', function(){
+		it('should throw an error if calling reduce on an empty or null array', function(){
 			passIfThrows(function(){
 				[].reduce(function(){});
 			}, 'Reduce of empty array with no initial value');
+			passIfThrows(function(){
+				[1, 2].reduce('notAFunction');
+			}, 'notAFunction is not a function');
 		});
 
 	});
