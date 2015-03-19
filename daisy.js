@@ -104,16 +104,16 @@ var daisy = (function(){
 	};
 
 	// Set model
-	var Set = function(initParam){
+	var NumberSet = function(initParam){
 		this.currentSet = initParam;
 	};
 
-	Set.prototype.sum = function(){
+	NumberSet.prototype.sum = function(){
 		if (this.currentSet.length === 0) { throw errors.emptySet(); }
 		return new Computation(this.currentSet.reduce(add));
 	};
 
-	Set.prototype.average = function(){
+	NumberSet.prototype.average = function(){
 		if (this.currentSet.length === 0) { throw errors.emptySet(); }
 		var value = this.currentSet.reduce(add) / this.currentSet.length;
 		return new Computation(value);
@@ -121,7 +121,7 @@ var daisy = (function(){
 
 	return function(initValue){
 		if (Array.isArray(initValue)){
-			return new Set(initValue);
+			return new NumberSet(initValue);
 		} else {
 			return new Computation(initValue);
 		}

@@ -127,7 +127,7 @@ describe('daisy', function(){
 
 	});
 
-	describe('sets', function(){
+	describe('NumberSet', function(){
 
 		describe('sum', function(){
 
