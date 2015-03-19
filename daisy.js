@@ -68,7 +68,7 @@ var daisy = (function(){
 
 	// Privates
 	var tryParse = function(i){
-		var value = parseFloat(i);
+		var value = Number(i);
 		if (isNaN(value)) {
 			throw errors.notANumber(i);
 		}
