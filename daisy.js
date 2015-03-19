@@ -45,32 +45,16 @@ var daisy = (function(){
 
 	}());
 
-	var errors = (function(){
-		var name = 'DaisyException: ';
-		return {
-			notANumber: function(culprit){
-				return {
-					name: name,
-					culprit: culprit,
-					message: '\'' + culprit + '\' is not a valid number',
-					toString: function(){ return name + this.message; }
-				};
-			},
-			emptySet: function(){
-				return {
-					name: name,
-					message: 'cannot operate on empty set',
-					toString: function(){ return name + this.message; }
-				};
-			}
-		};
-	}());
+	var DaisyException = function(message){
+		this.name = 'DaisyException';
+		this.message = message;
+	};
 
 	// Privates
 	var tryParse = function(i){
 		var value = Number(i);
 		if (isNaN(value)) {
-			throw errors.notANumber(i);
+			throw new DaisyException('\'' + i + '\' is not a valid number');
 		}
 		return value;
 	};
@@ -109,12 +93,12 @@ var daisy = (function(){
 	};
 
 	NumberSet.prototype.sum = function(){
-		if (this.currentSet.length === 0) { throw errors.emptySet(); }
+		if (this.currentSet.length === 0) { throw new DaisyException('cannot operate on empty set'); }
 		return new Computation(this.currentSet.reduce(add));
 	};
 
 	NumberSet.prototype.average = function(){
-		if (this.currentSet.length === 0) { throw errors.emptySet(); }
+		if (this.currentSet.length === 0) { throw new DaisyException('cannot operate on empty set'); }
 		var value = this.currentSet.reduce(add) / this.currentSet.length;
 		return new Computation(value);
 	};
