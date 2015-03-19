@@ -94,13 +94,13 @@ var daisy = (function(){
 	};
 
 	Computation.prototype.plus = function(additionParam){
-		var newValue = add(this.currentVal, additionParam);
-		return new Computation(newValue);
+		this.currentVal = add(this.currentVal, additionParam);
+		return this;
 	};
 
 	Computation.prototype.minus = function(substractionParam){
-		var newValue = subtract(this.currentVal, substractionParam);
-		return new Computation(newValue);
+		this.currentVal = subtract(this.currentVal, substractionParam);
+		return this;
 	};
 
 	// Set model
