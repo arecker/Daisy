@@ -293,4 +293,20 @@ describe('daisy', function(){
 
 	});
 
+	describe('options', function(){
+
+		it('should return value if dollar sign if printDollarSign', function(){
+			var actual = daisy('3', {
+				printDollarSign: true,
+			}).plus(3).equals();
+			expect(actual).toBe('$6.00');
+
+			actual = daisy('3.40', {
+				printDollarSign: true,
+			}).dividedBy(-2.3).equals();
+			expect(actual).toBe('$-1.48');
+		});
+
+	});
+
 });

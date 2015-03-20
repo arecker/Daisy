@@ -79,12 +79,14 @@ var daisy = (function(){
 	};
 
 	// Computation Model
-	var Computation = function(initParam){
+	var Computation = function(initParam, options){
 		this.currentVal = initParam + '';
+		this.options = options || {};
 	};
 
 	Computation.prototype.equals = function(){
 		var value = tryParse(this.currentVal).toFixed(2) + '';
+		if (this.options.printDollarSign){ value = '$' + value; }
 		return value;
 	};
 
@@ -109,8 +111,9 @@ var daisy = (function(){
 	};
 
 	// Set model
-	var NumberSet = function(initParam){
+	var NumberSet = function(initParam, options){
 		this.currentSet = initParam;
+		this.options = options || {};
 	};
 
 	NumberSet.prototype.sum = function(){
@@ -124,11 +127,11 @@ var daisy = (function(){
 		return new Computation(value);
 	};
 
-	return function(initValue){
+	return function(initValue, options){
 		if (Array.isArray(initValue)){
-			return new NumberSet(initValue);
+			return new NumberSet(initValue, options);
 		} else {
-			return new Computation(initValue);
+			return new Computation(initValue, options);
 		}
 	};
 
