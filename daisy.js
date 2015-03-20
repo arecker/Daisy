@@ -71,10 +71,14 @@ var daisy = (function(){
 		return tryParse(a) * tryParse(b);
 	};
 
-	var divide = function(a, b){
+	var divide = function(a, b, supressOption){
 		b = tryParse(b);
 		a = tryParse(a);
-		if (b === 0) { throw new DaisyException('divided \'' + a + '\' by zero'); }
+		if (b === 0 ) { 
+			if (!supressOption) { 
+				throw new DaisyException('divided \'' + a + '\' by zero');
+			} else { return 0; }
+		}
 		return a / b;
 	};
 
@@ -106,7 +110,7 @@ var daisy = (function(){
 	};
 
 	Computation.prototype.dividedBy = function(divisiionParam){
-		this.currentVal = divide(this.currentVal, divisiionParam);
+		this.currentVal = divide(this.currentVal, divisiionParam, this.options.supressDivideByZero);
 		return this;
 	};
 

@@ -307,6 +307,14 @@ describe('daisy', function(){
 			expect(actual).toBe('$-1.48');
 		});
 
+		it('should assume divide by zero is zero if supressDivideByZero', function(){
+			var actual = daisy('3', {
+				printDollarSign: true,
+				supressDivideByZero: true
+			}).dividedBy(0).equals();
+			expect(actual).toBe('$0.00');
+		});
+
 	});
 
 });
