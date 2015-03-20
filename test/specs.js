@@ -151,6 +151,20 @@ describe('daisy', function(){
 
 	});
 
+	describe('dividedBy', function(){
+
+		it('should divide two positve numbers', function(){
+			var actual = daisy('24').dividedBy(4).equals();
+			expect(actual).toBe('6.00');
+		});
+
+		it('should divide two negative numbers', function(){
+			var actual = daisy('-12.34544').times(1.234).dividedBy('-3.44').equals();
+			expect(actual).toBe('4.43');
+		});
+
+	});
+
 	describe('NumberSet', function(){
 
 		describe('sum', function(){
@@ -269,6 +283,12 @@ describe('daisy', function(){
 			passIfThrows(function(){
 				[1, 2].reduce('notAFunction');
 			}, 'notAFunction is not a function');
+		});
+
+		it('should throw a div by zero exception', function(){
+			passIfThrows(function(){
+				daisy('4').dividedBy(0);
+			}, 'divided \'4\' by zero');
 		});
 
 	});

@@ -71,6 +71,13 @@ var daisy = (function(){
 		return tryParse(a) * tryParse(b);
 	};
 
+	var divide = function(a, b){
+		b = tryParse(b);
+		a = tryParse(a);
+		if (b === 0) { throw new DaisyException('divided \'' + a + '\' by zero'); }
+		return a / b;
+	};
+
 	// Computation Model
 	var Computation = function(initParam){
 		this.currentVal = initParam + '';
@@ -93,6 +100,11 @@ var daisy = (function(){
 
 	Computation.prototype.times = function(multiplyParam){
 		this.currentVal = multiply(this.currentVal, multiplyParam);
+		return this;
+	};
+
+	Computation.prototype.dividedBy = function(divisiionParam){
+		this.currentVal = divide(this.currentVal, divisiionParam);
 		return this;
 	};
 
