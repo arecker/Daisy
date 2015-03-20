@@ -67,6 +67,10 @@ var daisy = (function(){
 		return tryParse(a) - tryParse(b);
 	};
 
+	var multiply = function(a, b){
+		return tryParse(a) * tryParse(b);
+	};
+
 	// Computation Model
 	var Computation = function(initParam){
 		this.currentVal = initParam + '';
@@ -84,6 +88,11 @@ var daisy = (function(){
 
 	Computation.prototype.minus = function(substractionParam){
 		this.currentVal = subtract(this.currentVal, substractionParam);
+		return this;
+	};
+
+	Computation.prototype.times = function(multiplyParam){
+		this.currentVal = multiply(this.currentVal, multiplyParam);
 		return this;
 	};
 

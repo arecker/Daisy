@@ -127,6 +127,30 @@ describe('daisy', function(){
 
 	});
 
+	describe('times', function(){
+
+		it('should multiply two positive numbers', function(){
+			var actual = daisy('12').times('2').equals();
+			expect(actual).toBe('24.00');
+		});
+
+		it('should multiply a pos and neg number and yield a negative result', function(){
+			var actual = daisy('-12').times('3').equals();
+			expect(actual).toBe('-36.00');
+		});
+
+		it('should multiply in a chain', function(){
+			var actual = daisy('2').plus(4).times('4').equals();
+			expect(actual).toBe('24.00');
+		});
+
+		it('should multiply by zero', function(){
+			var actual = daisy('3').times('0').equals();
+			expect(actual).toBe('0.00');
+		});
+
+	});
+
 	describe('NumberSet', function(){
 
 		describe('sum', function(){
