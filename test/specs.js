@@ -323,6 +323,15 @@ describe('daisy', function(){
 			}, 'divided \'4\' by zero');
 		});
 
+		it('should thrown exception when getting max or min of empty set', function(){
+			passIfThrows(function(){
+				daisy([]).max().equals();
+			}, 'cannot operate on empty set');
+			passIfThrows(function(){
+				daisy([]).min();
+			}, 'cannot operate on empty set');
+		});
+
 	});
 
 	describe('options', function(){
