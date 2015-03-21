@@ -122,13 +122,19 @@ var daisy = (function(){
 	};
 
 	NumberSet.prototype.sum = function(){
-		if (this.currentSet.length === 0) { throw new DaisyException('cannot operate on empty set'); }
-		return new Computation(this.currentSet.reduce(add));
+		var self = this;
+		if (self.currentSet.length === 0) { throw new DaisyException('cannot operate on empty set'); }
+		return new Computation(self.currentSet.reduce(function(p, c){
+			return add(p, c, self.options);
+		}));
 	};
 
 	NumberSet.prototype.average = function(){
+		var self = this;
 		if (this.currentSet.length === 0) { throw new DaisyException('cannot operate on empty set'); }
-		var value = this.currentSet.reduce(add) / this.currentSet.length;
+		var value = this.currentSet.reduce(function(p, c){
+			return add(p, c, self.options);
+		}) / self.currentSet.length;
 		return new Computation(value);
 	};
 

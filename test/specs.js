@@ -165,6 +165,10 @@ describe('daisy', function(){
 
 	});
 
+	describe('factorial', function(){
+
+	});
+
 	describe('NumberSet', function(){
 
 		describe('sum', function(){
@@ -318,6 +322,28 @@ describe('daisy', function(){
 		it('should assume zero for invalid numbers if supressInvalidNumbers', function(){
 			var actual = daisy('3', { supressInvalidNumbers: true }).plus('meh').equals();
 			expect(actual).toBe('3.00');
+		});
+
+		it('should sum an invalid set if supressInvalidNumbers', function(){
+			var actual = daisy([
+				'not',
+				'actual',
+				'numbers'
+			], {
+				supressInvalidNumbers: true
+			}).sum().equals();
+			expect(actual).toBe('0.00');
+		});
+
+		it('should take the average of an invalid set if supressInvalidNumbers', function(){
+			var actual = daisy([
+				'1',
+				'2',
+				'boop'
+			], {
+				supressInvalidNumbers: true
+			}).average().equals();
+			expect(actual).toBe('1.00');
 		});
 
 	});
