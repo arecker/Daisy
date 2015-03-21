@@ -141,6 +141,9 @@ var daisy = (function(){
 	NumberSet.prototype.max = function(){
 		var i, max, currentValue;
 		if (this.currentSet.length === 0) { throw new DaisyException('cannot operate on empty set'); }
+		if (!this.options.supressInvalidNumbers){
+			return new Computation(Math.max.apply(null, this.currentSet));
+		}
 		max = tryParse(this.currentSet[0], this.options);
 		for (i=0 ; i < this.currentSet.length ; i++){
 			currentVal = tryParse(this.currentSet[i], this.options);
@@ -152,6 +155,9 @@ var daisy = (function(){
 	NumberSet.prototype.min = function(){
 		var i, min, currentValue;
 		if (this.currentSet.length === 0) { throw new DaisyException('cannot operate on empty set'); }
+		if (!this.options.supressInvalidNumbers){
+			return new Computation(Math.min.apply(null, this.currentSet));
+		}
 		min = tryParse(this.currentSet[0], this.options);
 		for (i=0 ; i < this.currentSet.length ; i++){
 			currentVal = tryParse(this.currentSet[i], this.options);
