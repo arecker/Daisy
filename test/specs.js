@@ -211,13 +211,13 @@ describe('daisy', function(){
 			});
 
 			it('should take a max of invalid set with supressInvalidNumbers', function(){
-				var actual = daisy([1, -10, 'baaaaaah'], { supressInvalidNumbers: true }).max().equals();
-				expect(actual).toBe('1.00');
+				var actual = daisy([1, -10, 'baaaaaah', 10], { supressInvalidNumbers: true }).max().equals();
+				expect(actual).toBe('10.00');
 			});
 
 		});
 
-		describe('max', function(){
+		describe('min', function(){
 
 			it('should take the min of a mixed set', function(){
 				var actual = daisy([1, 2, 3, 4, -3, -1]).min().equals();
