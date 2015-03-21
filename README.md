@@ -39,7 +39,7 @@ var total = daisy(3, {
 }).plus(1).equals(); // '$4.00'
 
 var riskyAnswer = daisy('MEH', { 
-	supressInvalidNumber: true 
+	supressInvalidNumbers: true 
 }).minus('3').equals(); // '-3.00'
 ```
 
