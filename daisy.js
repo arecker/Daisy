@@ -51,31 +51,32 @@ var daisy = (function(){
 	};
 
 	// Privates
-	var tryParse = function(i){
+	var tryParse = function(i, o){
 		var value = Number(i);
 		if (isNaN(value)) {
+			if (o.supressInvalidNumbers){ return 0; }
 			throw new DaisyException('\'' + i + '\' is not a valid number');
 		}
 		return value;
 	};
 
-	var add = function(a, b){
-		return tryParse(a) + tryParse(b);
+	var add = function(a, b, option){
+		return tryParse(a, option) + tryParse(b, option);
 	};
 
-	var subtract = function(a, b){
-		return tryParse(a) - tryParse(b);
+	var subtract = function(a, b, option){
+		return tryParse(a, option) - tryParse(b, option);
 	};
 
-	var multiply = function(a, b){
-		return tryParse(a) * tryParse(b);
+	var multiply = function(a, b, option){
+		return tryParse(a, option) * tryParse(b, option);
 	};
 
-	var divide = function(a, b, supressOption){
+	var divide = function(a, b, option){
 		b = tryParse(b);
 		a = tryParse(a);
 		if (b === 0 ) { 
-			if (!supressOption) { 
+			if (!option.supressDivideByZero) { 
 				throw new DaisyException('divided \'' + a + '\' by zero');
 			} else { return 0; }
 		}
@@ -89,28 +90,28 @@ var daisy = (function(){
 	};
 
 	Computation.prototype.equals = function(){
-		var value = tryParse(this.currentVal).toFixed(2) + '';
+		var value = tryParse(this.currentVal, this.options).toFixed(2) + '';
 		if (this.options.printDollarSign){ value = '$' + value; }
 		return value;
 	};
 
 	Computation.prototype.plus = function(additionParam){
-		this.currentVal = add(this.currentVal, additionParam);
+		this.currentVal = add(this.currentVal, additionParam, this.options);
 		return this;
 	};
 
 	Computation.prototype.minus = function(substractionParam){
-		this.currentVal = subtract(this.currentVal, substractionParam);
+		this.currentVal = subtract(this.currentVal, substractionParam, this.options);
 		return this;
 	};
 
 	Computation.prototype.times = function(multiplyParam){
-		this.currentVal = multiply(this.currentVal, multiplyParam);
+		this.currentVal = multiply(this.currentVal, multiplyParam, this.options);
 		return this;
 	};
 
 	Computation.prototype.dividedBy = function(divisiionParam){
-		this.currentVal = divide(this.currentVal, divisiionParam, this.options.supressDivideByZero);
+		this.currentVal = divide(this.currentVal, divisiionParam, this.options);
 		return this;
 	};
 

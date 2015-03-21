@@ -315,6 +315,11 @@ describe('daisy', function(){
 			expect(actual).toBe('$0.00');
 		});
 
+		it('should assume zero for invalid numbers if supressInvalidNumbers', function(){
+			var actual = daisy('3', { supressInvalidNumbers: true }).plus('meh').equals();
+			expect(actual).toBe('3.00');
+		});
+
 	});
 
 });
