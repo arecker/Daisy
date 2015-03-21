@@ -2,7 +2,7 @@ module.exports = function(grunt){
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
 		jshint: {
-			all: ['daisy.js', 'tests.js'],
+			all: ['src/daisy.js', 'test/tests.js'],
 			options: {
 				curly: true,
 				eqeqeq: true,
@@ -17,7 +17,7 @@ module.exports = function(grunt){
 
 		jasmine: {
 			pivotal: {
-				src: 'daisy.js',
+				src: 'src/daisy.js',
 				options: {
 					specs: 'test/specs.js',
 					vendor: ['test/clobber.js'],
@@ -58,7 +58,7 @@ module.exports = function(grunt){
     		},
 			my_target: {
 				files: {
-					'daisy.min.js': ['daisy.js']
+					'dist/daisy.min.js': ['src/daisy.js']
 				}
 			}
 		}
