@@ -2,7 +2,7 @@ module.exports = function(grunt){
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
 		jshint: {
-			all: ['src/daisy.js', 'test/tests.js'],
+			all: ['src/daisy.js', 'test/specs.js'],
 			options: {
 				curly: true,
 				eqeqeq: true,
