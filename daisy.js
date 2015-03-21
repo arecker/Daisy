@@ -138,6 +138,28 @@ var daisy = (function(){
 		return new Computation(value);
 	};
 
+	NumberSet.prototype.max = function(){
+		var i, max, currentValue;
+		if (this.currentSet.length === 0) { throw new DaisyException('cannot operate on empty set'); }
+		max = tryParse(this.currentSet[0], this.options);
+		for (i=0 ; i < this.currentSet.length ; i++){
+			currentVal = tryParse(this.currentSet[i], this.options);
+			if (max < currentVal){ max = currentVal; }
+		}
+		return new Computation(max);
+	};
+
+	NumberSet.prototype.min = function(){
+		var i, min, currentValue;
+		if (this.currentSet.length === 0) { throw new DaisyException('cannot operate on empty set'); }
+		min = tryParse(this.currentSet[0], this.options);
+		for (i=0 ; i < this.currentSet.length ; i++){
+			currentVal = tryParse(this.currentSet[i], this.options);
+			if (min > currentVal){ min = currentVal; }
+		}
+		return new Computation(min);
+	};
+
 	return function(initValue, options){
 		if (Array.isArray(initValue)){
 			return new NumberSet(initValue, options);

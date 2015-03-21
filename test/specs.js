@@ -203,6 +203,34 @@ describe('daisy', function(){
 
 		});
 
+		describe('max', function(){
+
+			it('should take the max of a mixed set', function(){
+				var actual = daisy([1, 2, 3, 4, -3, -1]).max().equals();
+				expect(actual).toBe('4.00');
+			});
+
+			it('should take a max of invalid set with supressInvalidNumbers', function(){
+				var actual = daisy([1, -10, 'baaaaaah'], { supressInvalidNumbers: true }).max().equals();
+				expect(actual).toBe('1.00');
+			});
+
+		});
+
+		describe('max', function(){
+
+			it('should take the min of a mixed set', function(){
+				var actual = daisy([1, 2, 3, 4, -3, -1]).min().equals();
+				expect(actual).toBe('-3.00');
+			});
+
+			it('should take a min of invalid set with supressInvalidNumbers', function(){
+				var actual = daisy([1, -10, 'baaaaaah'], { supressInvalidNumbers: true }).min().equals();
+				expect(actual).toBe('-10.00');
+			});
+
+		});
+
 	});
 
 	describe('exceptions', function(){
