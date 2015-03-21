@@ -62,6 +62,13 @@ module.exports = function(grunt){
 					'dist/daisy.min.js': ['src/daisy.js']
 				}
 			}
+		},
+
+		watch: {
+			scripts: {
+				files: ['src/*', 'test/*'],
+				tasks: ['jshint', 'jasmine']
+			}
 		}
 	});
 
@@ -69,6 +76,7 @@ module.exports = function(grunt){
 	grunt.loadNpmTasks('grunt-contrib-jasmine');
 	grunt.loadNpmTasks("grunt-coveralls");
 	grunt.loadNpmTasks('grunt-contrib-uglify');
+	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.registerTask('default', ['jshint', 'jasmine']);
 	grunt.registerTask('build', ['jshint', 'jasmine', 'uglify']);
 };
