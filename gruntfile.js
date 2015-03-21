@@ -52,7 +52,8 @@ module.exports = function(grunt){
 			options: {
 				banner: '/**\n' + 
 						' *  <%= pkg.name %> - v<%= pkg.version %> \n' +
-        				' *  http://github.com/arecker/Daisy \n' +
+        				' *  <%= pkg.description %> \n' +
+        				' *  <%= pkg.repository.url %> \n' +
         				' **/\n',
         		mangle: true
     		},
