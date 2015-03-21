@@ -1,5 +1,6 @@
 module.exports = function(grunt){
 	grunt.initConfig({
+		pkg: grunt.file.readJSON('package.json'),
 		jshint: {
 			all: ['daisy.js', 'tests.js'],
 			options: {
@@ -45,11 +46,28 @@ module.exports = function(grunt){
 		coveralls: {
 			options: { force: true },
 			main_target: { src: "reports/lcov/lcov.info" }
+		},
+
+		uglify: {
+			options: {
+				banner: '/**\n' + 
+						' *  <%= pkg.name %> - v<%= pkg.version %> \n' +
+        				' *  http://github.com/arecker/Daisy \n' +
+        				' **/\n',
+        		mangle: true
+    		},
+			my_target: {
+				files: {
+					'daisy.min.js': ['daisy.js']
+				}
+			}
 		}
 	});
 
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-jasmine');
 	grunt.loadNpmTasks("grunt-coveralls");
+	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.registerTask('default', ['jshint', 'jasmine']);
+	grunt.registerTask('build', ['jshint', 'jasmine', 'uglify']);
 };
