@@ -61,7 +61,21 @@ var daisy = (function(){
 	};
 
 	var add = function(a, b, option){
-		return tryParse(a, option) + tryParse(b, option);
+		a = tryParse(a, option);
+        b = tryParse(b, option);
+        if (a === 0) {
+            return b;
+        }
+        if (b === 0) {
+            return a;
+        }
+        if ( (Math.abs(a) === b) && ( (a < 0 && b > 0) || (b < 0 && a > 0) )  ) {
+            return 0;
+        }
+        if (b < 0 && a > 0 && Math.abs(b) === a) {
+            return 0;
+        }
+        return a + b;
 	};
 
 	var subtract = function(a, b, option){
