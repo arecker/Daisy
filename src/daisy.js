@@ -91,7 +91,21 @@ var daisy = (function(){
 	};
 
 	var multiply = function(a, b, option){
-		return tryParse(a, option) * tryParse(b, option);
+        a = tryParse(a, option);
+        b = tryParse(b, option);
+        if (a === 0) {
+            return 0;
+        }
+        if (b === 0) {
+            return 0;
+        }
+        if (a === 1) {
+            return b;
+        }
+        if (b === 1) {
+            return a;
+        }
+		return a * b;
 	};
 
 	var divide = function(a, b, option){
