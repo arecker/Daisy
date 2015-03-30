@@ -111,6 +111,13 @@ describe('daisy', function(){
 			expect(actual).toBe('28.00');
 		});
 
+		it('should add 0', function(){
+			var actual = daisy(0).plus(1).equals();
+			expect(actual).toBe('1.00');
+			actual = daisy(1).plus(0).equals();
+			expect(actual).toBe('1.00');
+		});
+
 	});
 
 	describe('minus', function(){
@@ -145,6 +152,16 @@ describe('daisy', function(){
 			expect(actual).toBe('0.00');
 		});
 
+		it('should subtract zero', function(){
+			var actual = daisy('45').minus(0.00).equals();
+			expect(actual).toBe('45.00');
+		});
+
+		it('should subtract from zero', function(){
+			var actual = daisy('0').minus('12').equals();
+			expect(actual).toBe('-12.00');
+		});
+
 	});
 
 	describe('times', function(){
@@ -167,6 +184,8 @@ describe('daisy', function(){
 		it('should multiply by zero', function(){
 			var actual = daisy('3').times('0').equals();
 			expect(actual).toBe('0.00');
+			actual = daisy(0).times('4').equals();
+			expect(actual).toBe('0.00');
 		});
 
 	});
@@ -186,6 +205,11 @@ describe('daisy', function(){
 		it('should divide two negative numbers', function(){
 			var actual = daisy('-12.34544').times(1.234).dividedBy('-3.44').equals();
 			expect(actual).toBe('4.43');
+		});
+
+		it('should divide zero', function(){
+			var actual = daisy('0').dividedBy(34234234).equals();
+			expect(actual).toBe('0.00');
 		});
 
 	});
