@@ -95,7 +95,17 @@ describe('daisy', function(){
 			var actual = daisy(1).plus(1).equals();
 			expect(actual).toBe('2.00');
 		});
-
+        
+        it('should add zero integer to non-zero integer lazily', function(){
+			var actual = daisy(0).plus(1).equals();
+			expect(actual).toBe('1.00');
+		});
+        
+        it('should add inverses', function(){
+			var actual = daisy(-2).plus(2).equals();
+			expect(actual).toBe('0.00');
+		});
+        
 		it('should add three positive integers', function(){
 			var actual = daisy(12).plus(14).plus(2).equals();
 			expect(actual).toBe('28.00');
@@ -109,7 +119,17 @@ describe('daisy', function(){
 			var actual = daisy('8').minus(6).equals();
 			expect(actual).toBe('2.00');
 		});
-
+        
+        it('should subtract inverses + +', function(){
+			var actual = daisy(8).minus(8).equals();
+			expect(actual).toBe('0.00');
+		});
+        
+        it('should subtract inverses - - ', function(){
+			var actual = daisy(-9).minus(-9).equals();
+			expect(actual).toBe('0.00');
+		});
+        
 		it('should substract three positive numbers and give positive result', function(){
 			var actual = daisy('14').minus(8).minus(1).equals();
 			expect(actual).toBe('5.00');
@@ -158,6 +178,11 @@ describe('daisy', function(){
 			expect(actual).toBe('6.00');
 		});
 
+        it('should divide equal numbers', function(){
+			var actual = daisy('24').dividedBy(24).equals();
+			expect(actual).toBe('1.00');
+		});
+        
 		it('should divide two negative numbers', function(){
 			var actual = daisy('-12.34544').times(1.234).dividedBy('-3.44').equals();
 			expect(actual).toBe('4.43');
