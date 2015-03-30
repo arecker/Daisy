@@ -169,6 +169,10 @@ describe('daisy', function(){
 		it('should multiply two positive numbers', function(){
 			var actual = daisy('12').times('2').equals();
 			expect(actual).toBe('24.00');
+			actual = daisy(12).times(1).equals();
+			expect(actual).toBe('12.00');
+			actual = daisy(1).times('123').equals();
+			expect(actual).toBe('123.00');
 		});
 
 		it('should multiply a pos and neg number and yield a negative result', function(){
@@ -195,6 +199,8 @@ describe('daisy', function(){
 		it('should divide two positve numbers', function(){
 			var actual = daisy('24').dividedBy(4).equals();
 			expect(actual).toBe('6.00');
+			actual = daisy('24').dividedBy(1).equals();
+			expect(actual).toBe('24.00');
 		});
 
         it('should divide equal numbers', function(){
