@@ -220,10 +220,6 @@ describe('daisy', function(){
 
 	});
 
-	describe('factorial', function(){
-
-	});
-
 	describe('NumberSet', function(){
 
 		describe('sum', function(){
