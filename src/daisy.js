@@ -51,18 +51,21 @@ var daisy = (function(){
 	};
 
 	// Privates
-	var tryParse = function(i, o){
+	var isValid = function(i, o){
 		var value = Number(i);
 		if (isNaN(value)) {
 			if (o.supressInvalidNumbers){ return 0; }
 			throw new DaisyException('\'' + i + '\' is not a valid number');
 		}
+
+
+
 		return value;
 	};
 
 	var add = function(a, b, option){
-		a = tryParse(a, option);
-        b = tryParse(b, option);
+		a = isValid(a, option);
+        b = isValid(b, option);
         if (a === 0) {
             return b;
         }
@@ -76,8 +79,8 @@ var daisy = (function(){
 	};
 
 	var subtract = function(a, b, option){
-		a = tryParse(a, option);
-        b = tryParse(b, option);
+		a = isValid(a, option);
+        b = isValid(b, option);
         if (a === 0) {
             return -b;
         }
@@ -91,8 +94,8 @@ var daisy = (function(){
 	};
 
 	var multiply = function(a, b, option){
-        a = tryParse(a, option);
-        b = tryParse(b, option);
+        a = isValid(a, option);
+        b = isValid(b, option);
         if (a === 0) {
             return 0;
         }
@@ -109,8 +112,8 @@ var daisy = (function(){
 	};
 
 	var divide = function(a, b, option){
-		b = tryParse(b);
-		a = tryParse(a);
+		b = isValid(b);
+		a = isValid(a);
 		if (b === 0 ) { 
 			if (!option.supressDivideByZero) { 
 				throw new DaisyException('divided \'' + a + '\' by zero');
@@ -134,8 +137,43 @@ var daisy = (function(){
 		this.options = options || {};
 	};
 
+	Computation.prototype.format = function () {
+		var formatted,
+			placeValue = 1e-2,
+			decimalPlaces = 0,
+			num = this.currentVal,
+			format = this.options.format || 'n.nn',
+			round = this.options.round || 'round',
+			operation = {
+				"up": "ceiling",
+				"down": "floor",
+				"round": "round"
+			}[round] || 'round';
+
+		// check for valid format string
+		if (
+			(format.match(/\./g) && format.match(/\./g).length > 1)
+			|| /[^n\.0]/i.test(format)
+		){
+			format = 'n.nn';
+		}
+
+		format.replace(/n(0*)\.?(n*)/ig, function (m, aboveOne, belowOne) {
+			if (aboveOne || belowOne) {
+				var isDecimal = !aboveOne && !!belowOne;
+				decimalPlaces = aboveOne ? 0 : (belowOne.length || 0);
+				placeValue = Math.pow(10, isDecimal ? -decimalPlaces : aboveOne.length);
+			}
+		});
+
+		formatted = Math[operation](num / placeValue) * placeValue;
+
+		return formatted.toFixed(decimalPlaces);
+	}
+
 	Computation.prototype.equals = function(){
-		var value = tryParse(this.currentVal, this.options).toFixed(2) + '';
+		var value = isValid(this.currentVal, this.options);
+		value = this.format(value) + '';
 		if (this.options.printDollarSign){ value = '$' + value; }
 		return value;
 	};
@@ -189,9 +227,9 @@ var daisy = (function(){
 		if (!this.options.supressInvalidNumbers){
 			return new Computation(Math.max.apply(null, this.currentSet));
 		}
-		max = tryParse(this.currentSet[0], this.options);
+		max = isValid(this.currentSet[0], this.options);
 		for (i=0 ; i < this.currentSet.length ; i++){
-			currentVal = tryParse(this.currentSet[i], this.options);
+			currentVal = isValid(this.currentSet[i], this.options);
 			if (max < currentVal){ max = currentVal; }
 		}
 		return new Computation(max);
@@ -203,9 +241,9 @@ var daisy = (function(){
 		if (!this.options.supressInvalidNumbers){
 			return new Computation(Math.min.apply(null, this.currentSet));
 		}
-		min = tryParse(this.currentSet[0], this.options);
+		min = isValid(this.currentSet[0], this.options);
 		for (i=0 ; i < this.currentSet.length ; i++){
-			currentVal = tryParse(this.currentSet[i], this.options);
+			currentVal = isValid(this.currentSet[i], this.options);
 			if (min > currentVal){ min = currentVal; }
 		}
 		return new Computation(min);
