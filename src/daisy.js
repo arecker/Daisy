@@ -50,18 +50,13 @@ var daisy = (function(){
 		this.message = message;
 	};
 
-	var addCommas = function (num, locale, currency) {
-		num = num.toLocaleString(locale);
-		return num.match(/[\d,\.]+/)[0];
-	};
-
 	var makeNumberString = function (options) {
 		var formatted = (+options.formatted).toFixed(options.decimalPlaces).split('.'),
 			str = +formatted[0],
 			decimals = formatted[1] ? '.' + formatted[1] : '';
 
 		if (options.commas) {
-			str = addCommas(str, options.locale);
+			str = str.toLocaleString(options.locale).match(/[\d,\.]+/)[0];
 		}
 
 		str = options.hasDollarSign ? '$' + str + decimals : str + decimals;
@@ -173,7 +168,7 @@ var daisy = (function(){
 				"round": "round"
 			}[this.options.round] || 'round';
 
-		// check for valid format string
+		// check for valid format string, otherwise use default
 		if (
 			format.match(/\./g) && format.match(/\./g).length > 1 ||
 			/[^n\.0\$]/i.test(format)
