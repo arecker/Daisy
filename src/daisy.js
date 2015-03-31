@@ -50,19 +50,36 @@ var daisy = (function(Object, Array, Math, undefined){
 		this.message = message;
 	};
 
+	var makeNumberString = function (options) {
+		var formatted = (+options.formatted).toFixed(options.decimalPlaces).split('.'),
+			str = +formatted[0],
+			decimals = formatted[1] ? '.' + formatted[1] : '';
+
+		if (options.commas) {
+			str = str.toLocaleString(options.locale).match(/[\d,\.]+/)[0];
+		}
+
+		str = options.hasDollarSign ? '$' + str + decimals : str + decimals;
+
+		return str;
+	};
+
 	// Privates
-	var tryParse = function(i, o){
+	var isValid = function(i, o){
 		var value = Number(i);
 		if (isNaN(value)) {
 			if (o.supressInvalidNumbers){ return 0; }
 			throw new DaisyException('\'' + i + '\' is not a valid number');
 		}
+
+
+
 		return value;
 	};
 
 	var add = function(a, b, option){
-		a = tryParse(a, option);
-        b = tryParse(b, option);
+		a = isValid(a, option);
+        b = isValid(b, option);
         if (a === 0) {
             return b;
         }
@@ -76,8 +93,8 @@ var daisy = (function(Object, Array, Math, undefined){
 	};
 
 	var subtract = function(a, b, option){
-		a = tryParse(a, option);
-        b = tryParse(b, option);
+		a = isValid(a, option);
+        b = isValid(b, option);
         if (a === 0) {
             return -b;
         }
@@ -91,8 +108,8 @@ var daisy = (function(Object, Array, Math, undefined){
 	};
 
 	var multiply = function(a, b, option){
-        a = tryParse(a, option);
-        b = tryParse(b, option);
+        a = isValid(a, option);
+        b = isValid(b, option);
         if (a === 0) {
             return 0;
         }
@@ -109,8 +126,8 @@ var daisy = (function(Object, Array, Math, undefined){
 	};
 
 	var divide = function(a, b, option){
-		b = tryParse(b);
-		a = tryParse(a);
+		b = isValid(b);
+		a = isValid(a);
 		if (b === 0 ) { 
 			if (!option.supressDivideByZero) { 
 				throw new DaisyException('divided \'' + a + '\' by zero');
@@ -132,12 +149,60 @@ var daisy = (function(Object, Array, Math, undefined){
 	var Computation = function(initParam, options){
 		this.currentVal = initParam + '';
 		this.options = options || {};
+		if (this.options.round && !this.options.format) {
+			this.options.format = 'n';
+		}
+		if (this.options.INR && this.options.commas === void 0) {
+			this.options.commas = true;
+		}
+	};
+
+	Computation.prototype.format = function () {
+		var formatted,
+			placeValue = 1e-2,
+			decimalPlaces = 0,
+			format = this.options.format || 'n.nn',
+			operation = {
+				"up": "ceil",
+				"down": "floor",
+				"round": "round"
+			}[this.options.round] || 'round';
+
+		// check for valid format string, otherwise use default
+		if (
+			format.match(/\./g) && format.match(/\./g).length > 1 ||
+			/[^n\.0\$]/i.test(format)
+		){
+			format = 'n.nn';
+		}
+
+		// not actually replacing anything, using the callback function
+		// to extract information from the regex match.
+		format.replace(/n(0*)\.?(n*)/ig, function (m, aboveOne, belowOne) {
+			if (aboveOne || belowOne) {
+				var isDecimal = !aboveOne && !!belowOne;
+				decimalPlaces = aboveOne ? 0 : belowOne.length || 0;
+				placeValue = Math.pow(10, isDecimal ? -decimalPlaces : aboveOne.length);
+			} else {
+				placeValue = 1;
+			}
+		});
+
+		// round to desired place value
+		formatted = (Math[operation](+this.currentVal / placeValue) * placeValue).toFixed(decimalPlaces);
+
+		return makeNumberString({
+			"formatted": formatted,
+			"hasDollarSign": /\$/.test(format),
+			"decimalPlaces": decimalPlaces,
+			"commas": this.options.commas,
+			"locale": this.options.INR ? 'hi-IN' : 'en-US'
+		});
 	};
 
 	Computation.prototype.equals = function(){
-		var value = tryParse(this.currentVal, this.options).toFixed(2) + '';
-		if (this.options.printDollarSign){ value = '$' + value; }
-		return value;
+		var value = isValid(this.currentVal, this.options);
+		return this.format(value);
 	};
 
 	Computation.prototype.plus = function(additionParam){
@@ -189,9 +254,9 @@ var daisy = (function(Object, Array, Math, undefined){
 		if (!this.options.supressInvalidNumbers){
 			return new Computation(Math.max.apply(null, this.currentSet));
 		}
-		max = tryParse(this.currentSet[0], this.options);
+		max = isValid(this.currentSet[0], this.options);
 		for (i=0 ; i < this.currentSet.length ; i++){
-			currentVal = tryParse(this.currentSet[i], this.options);
+			currentVal = isValid(this.currentSet[i], this.options);
 			if (max < currentVal){ max = currentVal; }
 		}
 		return new Computation(max);
@@ -203,9 +268,9 @@ var daisy = (function(Object, Array, Math, undefined){
 		if (!this.options.supressInvalidNumbers){
 			return new Computation(Math.min.apply(null, this.currentSet));
 		}
-		min = tryParse(this.currentSet[0], this.options);
+		min = isValid(this.currentSet[0], this.options);
 		for (i=0 ; i < this.currentSet.length ; i++){
-			currentVal = tryParse(this.currentSet[i], this.options);
+			currentVal = isValid(this.currentSet[i], this.options);
 			if (min > currentVal){ min = currentVal; }
 		}
 		return new Computation(min);

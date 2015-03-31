@@ -35,12 +35,26 @@ var answer = daisy(3, {
 }).dividedBy(0).equals(); // '0.00'
 
 var total = daisy(3, { 
-	printDollarSign: true 
+	format: "$n.nn"
 }).plus(1).equals(); // '$4.00'
 
 var riskyAnswer = daisy('MEH', { 
 	supressInvalidNumbers: true 
 }).minus('3').equals(); // '-3.00'
+
+var roundReallyHigh = daisy(123456789, {
+	format: "n00000000",
+	round: "up"
+}).equals(); // '200000000'
+
+var commaFormatting = daisy(12345, {
+	commas: true,
+}).equals(); // '12,345.00'
+
+var internationalSupport = daisy(1234567, {
+	commas: true,
+	INR: true
+}).equals(); // '12,34,567.00'
 ```
 
 ## Contributing

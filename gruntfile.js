@@ -19,6 +19,7 @@ module.exports = function(grunt){
 			pivotal: {
 				src: 'src/daisy.js',
 				options: {
+					keepRunner: true,
 					specs: 'test/specs.js',
 					vendor: ['test/clobber.js'],
 					template : require("grunt-template-jasmine-istanbul"),
