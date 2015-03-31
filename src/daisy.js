@@ -157,6 +157,9 @@ var daisy = (function(){
 		if (this.options.round && !this.options.format) {
 			this.options.format = 'n';
 		}
+		if (this.options.INR && this.options.commas === void 0) {
+			this.options.commas = true;
+		}
 	};
 
 	Computation.prototype.format = function () {
