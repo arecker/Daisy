@@ -138,6 +138,18 @@ describe('daisy', function(){
 				// Number.prototype.toLocaleString
 				// expect(actual).toBe('1,00,00,000');
 			});
+
+			it('should round up/down according to the user-passed setting, if it exists', function () {
+				var down = daisy(55.5, {"round": "down"}).equals(),
+					up = daisy(55.5, {"round": "up"}).equals(),
+					round = daisy(55.5, {"round": "round"}).equals(),
+					theDefault = daisy(55.5).equals();
+
+				expect(down).toBe('55');
+				expect(up).toBe('56');
+				expect(round).toBe('56');
+				expect(theDefault).toBe('55.50');
+			});
 		});
 
 	});

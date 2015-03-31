@@ -154,6 +154,9 @@ var daisy = (function(){
 	var Computation = function(initParam, options){
 		this.currentVal = initParam + '';
 		this.options = options || {};
+		if (this.options.round && !this.options.format) {
+			this.options.format = 'n';
+		}
 	};
 
 	Computation.prototype.format = function () {
@@ -162,7 +165,7 @@ var daisy = (function(){
 			decimalPlaces = 0,
 			format = this.options.format || 'n.nn',
 			operation = {
-				"up": "ceiling",
+				"up": "ceil",
 				"down": "floor",
 				"round": "round"
 			}[this.options.round] || 'round';
@@ -182,6 +185,8 @@ var daisy = (function(){
 				var isDecimal = !aboveOne && !!belowOne;
 				decimalPlaces = aboveOne ? 0 : belowOne.length || 0;
 				placeValue = Math.pow(10, isDecimal ? -decimalPlaces : aboveOne.length);
+			} else {
+				placeValue = 1;
 			}
 		});
 
