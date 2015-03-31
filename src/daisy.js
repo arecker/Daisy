@@ -58,21 +58,15 @@ var daisy = (function(){
 	};
 
 	var makeNumberString = function (options) {
-		var str,
-			decimals,
-			formatted = +options.formatted,
-			hasDollarSign = options.hasDollarSign,
-			decimalPlaces = options.decimalPlaces;
-
-		formatted = formatted.toFixed(decimalPlaces).split('.');
-		str = +formatted[0];
-		decimals = formatted[1] ? '.' + formatted[1] : '';
+		var formatted = (+options.formatted).toFixed(options.decimalPlaces).split('.'),
+			str = +formatted[0],
+			decimals = formatted[1] ? '.' + formatted[1] : '';
 
 		if (options.commas) {
 			str = addCommas(str, options.locale);
 		}
 
-		str = hasDollarSign ? '$' + str + decimals : str + decimals;
+		str = options.hasDollarSign ? '$' + str + decimals : str + decimals;
 
 		return str;
 	};
