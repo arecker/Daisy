@@ -175,8 +175,8 @@ var daisy = (function(){
 
 		// check for valid format string
 		if (
-			format.match(/\./g) && format.match(/\./g).length > 1
-			|| /[^n\.0\$]/i.test(format)
+			format.match(/\./g) && format.match(/\./g).length > 1 ||
+			/[^n\.0\$]/i.test(format)
 		){
 			format = 'n.nn';
 		}
