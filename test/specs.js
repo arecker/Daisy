@@ -122,7 +122,7 @@ describe('daisy', function(){
 			it('should return a number string grouped by commas when passed commas: true', function () {
 				var actual = daisy(10000000, {"commas": true}).equals();
 
-				// will pass in the browser; fails in phantom which does not support
+				// will pass in webkit/moz; fails in phantom which does not support
 				// Number.prototype.toLocaleString
 				// expect(actual).toBe('10,000,000.00');
 			});
@@ -134,7 +134,7 @@ describe('daisy', function(){
 					"format": "n"
 				}).equals();
 
-				// will pass in the browser; fails in phantom which does not support
+				// will pass in webkit/moz; fails in phantom which does not support
 				// Number.prototype.toLocaleString
 				// expect(actual).toBe('1,00,00,000');
 			});

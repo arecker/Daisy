@@ -168,14 +168,12 @@ var daisy = (function(){
 		var formatted,
 			placeValue = 1e-2,
 			decimalPlaces = 0,
-			num = +this.currentVal,
 			format = this.options.format || 'n.nn',
-			round = this.options.round || 'round',
 			operation = {
 				"up": "ceiling",
 				"down": "floor",
 				"round": "round"
-			}[round] || 'round';
+			}[this.options.round] || 'round';
 
 		// check for valid format string
 		if (
@@ -186,7 +184,7 @@ var daisy = (function(){
 		}
 
 		// not actually replacing anything, using the callback function
-		// to find out what the user actually wants.
+		// to extract information from the regex match.
 		format.replace(/n(0*)\.?(n*)/ig, function (m, aboveOne, belowOne) {
 			if (aboveOne || belowOne) {
 				var isDecimal = !aboveOne && !!belowOne;
@@ -195,7 +193,8 @@ var daisy = (function(){
 			}
 		});
 
-		formatted = (Math[operation](num / placeValue) * placeValue).toFixed(decimalPlaces);
+		// round to desired place value
+		formatted = (Math[operation](+this.currentVal / placeValue) * placeValue).toFixed(decimalPlaces);
 
 		return makeNumberString({
 			"formatted": formatted,
