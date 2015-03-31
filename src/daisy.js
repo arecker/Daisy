@@ -1,4 +1,4 @@
-var daisy = (function(){
+var daisy = (function(Object, Array, Math, undefined){
 
 	// Polyfills
 	(function(){
@@ -284,4 +284,4 @@ var daisy = (function(){
 		}
 	};
 
-}());
+}(Object, Array, Math));

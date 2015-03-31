@@ -60,3 +60,5 @@ var internationalSupport = daisy(1234567, {
 ## Contributing
 
 To build the project, install dependencies by running ```npm install```, and run tests manually with ```grunt``` or continually by running ```grunt watch```.  If a change to daisy's source is made, please rebuild the minified source with ```grunt build```.
+
+To run benchmarks, ```cd``` to Daisy's root directory and run ```node ./test/benchmarks.js```
