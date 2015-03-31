@@ -50,6 +50,33 @@ var daisy = (function(){
 		this.message = message;
 	};
 
+	var addCommas = function (num, locale, currency) {
+		console.log('adding commas', num, locale);
+		num = num.toLocaleString(locale);
+		console.log(num);
+		return num.match(/[\d,\.]+/)[0];
+	};
+
+	var makeNumberString = function (options) {
+		var str,
+			decimals,
+			formatted = +options.formatted,
+			hasDollarSign = options.hasDollarSign,
+			decimalPlaces = options.decimalPlaces;
+
+		formatted = formatted.toFixed(decimalPlaces).split('.');
+		str = +formatted[0];
+		decimals = formatted[1] ? '.' + formatted[1] : '';
+
+		if (options.commas) {
+			str = addCommas(str, options.locale);
+		}
+
+		str = hasDollarSign ? '$' + str + decimals : str + decimals;
+
+		return str;
+	};
+
 	// Privates
 	var isValid = function(i, o){
 		var value = Number(i);
@@ -141,7 +168,7 @@ var daisy = (function(){
 		var formatted,
 			placeValue = 1e-2,
 			decimalPlaces = 0,
-			num = this.currentVal,
+			num = +this.currentVal,
 			format = this.options.format || 'n.nn',
 			round = this.options.round || 'round',
 			operation = {
@@ -152,30 +179,36 @@ var daisy = (function(){
 
 		// check for valid format string
 		if (
-			(format.match(/\./g) && format.match(/\./g).length > 1)
-			|| /[^n\.0]/i.test(format)
+			format.match(/\./g) && format.match(/\./g).length > 1
+			|| /[^n\.0\$]/i.test(format)
 		){
 			format = 'n.nn';
 		}
 
+		// not actually replacing anything, using the callback function
+		// to find out what the user actually wants.
 		format.replace(/n(0*)\.?(n*)/ig, function (m, aboveOne, belowOne) {
 			if (aboveOne || belowOne) {
 				var isDecimal = !aboveOne && !!belowOne;
-				decimalPlaces = aboveOne ? 0 : (belowOne.length || 0);
+				decimalPlaces = aboveOne ? 0 : belowOne.length || 0;
 				placeValue = Math.pow(10, isDecimal ? -decimalPlaces : aboveOne.length);
 			}
 		});
 
-		formatted = Math[operation](num / placeValue) * placeValue;
+		formatted = (Math[operation](num / placeValue) * placeValue).toFixed(decimalPlaces);
 
-		return formatted.toFixed(decimalPlaces);
-	}
+		return makeNumberString({
+			"formatted": formatted,
+			"hasDollarSign": /\$/.test(format),
+			"decimalPlaces": decimalPlaces,
+			"commas": this.options.commas,
+			"locale": this.options.INR ? 'hi-IN' : 'en-US'
+		});
+	};
 
 	Computation.prototype.equals = function(){
 		var value = isValid(this.currentVal, this.options);
-		value = this.format(value) + '';
-		if (this.options.printDollarSign){ value = '$' + value; }
-		return value;
+		return this.format(value);
 	};
 
 	Computation.prototype.plus = function(additionParam){

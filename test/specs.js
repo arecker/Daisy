@@ -103,6 +103,7 @@ describe('daisy', function(){
 			it('should return a number string reflective of the format param', function () {
 				var input = 3456.1999,
 					cents = daisy(input, {"format": "n.nn"}).equals(),
+					withDollarSign = daisy(input, {"format": "$n.nn"}).equals(),
 					dollars = daisy(input, {"format": "n"}).equals(),
 					tens = daisy(input, {"format": "n0"}).equals(),
 					hundreds = daisy(input, {"format": "n00"}).equals(),
@@ -110,11 +111,32 @@ describe('daisy', function(){
 					invalid = daisy(input, {"format": "stevePerry"}).equals();
 
 				expect(cents).toBe('3456.20');
+				expect(withDollarSign).toBe('$3456.20');
 				expect(dollars).toBe('3456');
 				expect(tens).toBe('3460');
 				expect(hundreds).toBe('3500');
 				expect(thousands).toBe('3000');
 				expect(invalid).toBe('3456.20');
+			});
+
+			it('should return a number string grouped by commas when passed commas: true', function () {
+				var actual = daisy(10000000, {"commas": true}).equals();
+
+				// will pass in the browser; fails in phantom which does not support
+				// Number.prototype.toLocaleString
+				// expect(actual).toBe('10,000,000.00');
+			});
+
+			it('should return a number string grouped by commas in the specified locale', function () {
+				var actual = daisy(10000000, {
+					"commas": true,
+					"INR": true,
+					"format": "n"
+				}).equals();
+
+				// will pass in the browser; fails in phantom which does not support
+				// Number.prototype.toLocaleString
+				// expect(actual).toBe('1,00,00,000');
 			});
 		});
 
@@ -422,21 +444,9 @@ describe('daisy', function(){
 
 	describe('options', function(){
 
-		it('should return value if dollar sign if printDollarSign', function(){
-			var actual = daisy('3', {
-				printDollarSign: true,
-			}).plus(3).equals();
-			expect(actual).toBe('$6.00');
-
-			actual = daisy('3.40', {
-				printDollarSign: true,
-			}).dividedBy(-2.3).equals();
-			expect(actual).toBe('$-1.48');
-		});
-
 		it('should assume divide by zero is zero if supressDivideByZero', function(){
 			var actual = daisy('3', {
-				printDollarSign: true,
+				format: '$n.nn',
 				supressDivideByZero: true
 			}).dividedBy(0).equals();
 			expect(actual).toBe('$0.00');
