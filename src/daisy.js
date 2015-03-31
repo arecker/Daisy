@@ -51,9 +51,7 @@ var daisy = (function(){
 	};
 
 	var addCommas = function (num, locale, currency) {
-		console.log('adding commas', num, locale);
 		num = num.toLocaleString(locale);
-		console.log(num);
 		return num.match(/[\d,\.]+/)[0];
 	};
 
