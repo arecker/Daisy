@@ -36,11 +36,11 @@ suite.add('Addition Test', function(){
 	daisy([45,1,6,54,5, '-12.00', 'woop',5,1,212,5,8,4,54,8,78,9,87,7,78,9,89,4,54], { supressInvalidNumbers: true }).max().equals();
 })
 
-.add('Max Test', function(){
-	daisy([45,1,6,54,5,5,1,212,5,8,4,54,8,78,9,87,7,78,9,89,4,54]).max().equals();
+.add('Min Test', function(){
+	daisy([45,1,6,54,5,5,1,212,5,8,4,54,8,78,9,87,7,78,9,89,4,54]).min().equals();
 })
 
-.add('Max Test (supress invalid)', function(){
+.add('Min Test (supress invalid)', function(){
 	daisy([45,1,6,54,5, '-12.00', 'woop',5,1,212,5,8,4,54,8,78,9,87,7,78,9,89,4,54], { supressInvalidNumbers: true }).min().equals();
 })
 

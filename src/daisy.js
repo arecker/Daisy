@@ -63,48 +63,21 @@ var daisy = (function(Object, Array, Math, undefined){
 	var add = function(a, b, option){
 		a = tryParse(a, option);
         b = tryParse(b, option);
-        if (a === 0) {
-            return b;
-        }
-        if (b === 0) {
-            return a;
-        }
-        if ( (Math.abs(a) === Math.abs(b) ) && ( (a < 0 && b > 0) || (b < 0 && a > 0) )  ) {
-            return 0;
-        }
         return a + b;
 	};
 
 	var subtract = function(a, b, option){
 		a = tryParse(a, option);
         b = tryParse(b, option);
-        if (a === 0) {
-            return -b;
-        }
-        if (b === 0) {
-            return a;
-        }
-        if (a === b) {
-            return 0;
-        }
         return a - b;
 	};
 
 	var multiply = function(a, b, option){
         a = tryParse(a, option);
         b = tryParse(b, option);
-        if (a === 0) {
-            return 0;
-        }
-        if (b === 0) {
-            return 0;
-        }
-        if (a === 1) {
-            return b;
-        }
-        if (b === 1) {
-            return a;
-        }
+        if (a === 0 || b === 0) { return 0; }
+        if (a === 1) { return b; }
+        if (b === 1) { return a; }
 		return a * b;
 	};
 
@@ -116,15 +89,9 @@ var daisy = (function(Object, Array, Math, undefined){
 				throw new DaisyException('divided \'' + a + '\' by zero');
 			} else { return 0; }
 		}
-        if (b === 1) {
-            return a;
-        }
-        if (a === 0) {
-            return 0;
-        }
-        if (a === b) {
-            return 1;
-        }
+        if (b === 1) { return a; }
+        if (a === 0) { return 0; }
+        if (a === b) { return 1; }
 		return a / b;
 	};
 
