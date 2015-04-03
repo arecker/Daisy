@@ -144,6 +144,9 @@ var daisy = (function(Object, Array, Math, undefined){
      */
     var round = function(val, place, dir, options){
         var validatePlace = function(place){
+            // TODO: This is a convoluted way to validate
+            // it seemed like a good idea at the time
+            // See issue #14
             if (!place.toString){ return false; }
             var placeArray = place.toString().replace('.', '').split('');
             try {
