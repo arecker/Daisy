@@ -192,6 +192,13 @@ describe('daisy', function(){
 			expect(actual).toBe('0.00');
 		});
 
+		it('should mimic the use case in issue #10', function(){
+			expect(daisy('123').round(10).equals()).toBe('120.00');
+			expect(daisy('123.32').round(0.1).equals()).toBe('123.30');
+			expect(daisy('123').round(100, 'down').equals()).toBe('100.00');
+			expect(daisy('123').round(100, 'up').equals()).toBe('200.00');
+		});
+
 	});
 
 	describe('dividedBy', function(){
@@ -218,6 +225,40 @@ describe('daisy', function(){
 			expect(actual).toBe('0.00');
 		});
 
+	});
+
+	describe('round', function(){
+		it('should round naturally to any place', function(){
+			var actual = daisy('123').round(100).equals();
+			expect(actual).toBe('100.00');
+
+			actual = daisy('177').round(10).equals();
+			expect(actual).toBe('180.00');
+		});
+
+		it('should round up to any place', function(){
+			var actual = daisy('123').round(100, 'up').equals();
+			expect(actual).toBe('200.00');
+
+			actual = daisy('177.41').round(0.1, 'up').equals();
+			expect(actual).toBe('177.50');
+		});
+
+		it('should round down to any place', function(){
+			var actual = daisy('129.34').round(10, 'down').equals();
+			expect(actual).toBe('120.00');
+
+			actual = daisy('177.419').round(0.01, 'down').equals();
+			expect(actual).toBe('177.41');
+		});
+
+		it('should handle crazy values', function(){
+			var actual = daisy('129.34').round(100000000, 'down').equals();
+			expect(actual).toBe('0.00');
+
+			actual = daisy('177.419').round(0.00001, 'down').equals();
+			expect(actual).toBe('177.42');
+		});
 	});
 
 	describe('NumberSet', function(){
@@ -381,6 +422,16 @@ describe('daisy', function(){
 			passIfThrows(function(){
 				daisy([]).min();
 			}, 'cannot operate on empty set');
+		});
+
+		it('should throw an exception if given a dumb decimal place', function(){
+			passIfThrows(function(){
+				daisy(34).round(2, 'up');
+			}, '\'2\' is not a valid decimal place');
+
+			passIfThrows(function(){
+				daisy(34).round('meh', 'up');
+			}, '\'meh\' is not a valid decimal place');
 		});
 
 	});

@@ -95,6 +95,34 @@ var daisy = (function(Object, Array, Math, undefined){
 		return a / b;
 	};
 
+	var round = function(val, place, dir, options){
+		var validatePlace = function(place){
+			if (!place.toString){ return false; }
+			var placeArray = place.toString().replace('.', '').split('');
+			try {
+				return placeArray.reduce(function(p, v){
+					return add(p, v, options);
+				}) === 1;
+			} catch (e) { return false; }
+		};
+
+		var getOperation = function(dir){
+			switch(dir.toLowerCase()){
+				case "up":
+					return Math.ceil;
+				case "down":
+					return Math.floor;
+				default:
+					return Math.round;
+			}
+		};
+
+		if (!validatePlace(place)){ throw new DaisyException('\'' + place + '\' is not a valid decimal place'); }
+
+		var op = getOperation(dir);
+		return multiply(op(divide(val, place, options)), place, options);
+	};
+
 	// Computation Model
 	var Computation = function(initParam, options){
 		this.currentVal = initParam + '';
@@ -124,6 +152,12 @@ var daisy = (function(Object, Array, Math, undefined){
 
 	Computation.prototype.dividedBy = function(divisiionParam){
 		this.currentVal = divide(this.currentVal, divisiionParam, this.options);
+		return this;
+	};
+
+	Computation.prototype.round = function(place, direction){
+		direction = direction || '';
+		this.currentVal = round(this.currentVal, place, direction, this.options);
 		return this;
 	};
 
