@@ -6,4 +6,6 @@
 p {
     font-family: 'Inconsolata', monospace !important;
     font-size: 16px;
+    margin-top: 2em;
+    margin-bottom: 2em;
 }
