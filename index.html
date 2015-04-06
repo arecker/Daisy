@@ -14,13 +14,70 @@
         <p class="text-center">
             <img src='http://i.imgur.com/9cVnhPZ.jpg' alt='daisy'>
         </p>
-        <p class='text-center'>
+        <p>
             Daisy is a daisy-chainable JavaScript money calculator.
         </p>
         <p>
             <pre><code class="js">> var total = daisy('120').minus('12').plus(4).equals();
 > console.log(total);
-> "112.00"</code></pre>
+> '112.00'</code></pre>
+        </p>
+        <p>
+            Daisy supports all kinds of math operations and will always return a rounded string.
+        </p>
+        <p>
+            <pre><code class="js">> var price = '140.00';
+> var tax = 2;
+> var subtotal = daisy(price).plus(tax).times('0.8').equals();
+> console.log(subtotal);
+> '113.60'
+</code></pre>
+        </p>
+        <p>
+            Daisy can round values
+        </p>
+        <p>
+            <pre><code class="js">> var hundos = daisy('124.4').round(100, 'up').dividedBy('100').equals();
+> console.log(billsNeeded);
+> '2.00'</code></pre>
+        </p>
+        <p>
+            And it can work with number sets too
+        </p>
+        <p>
+            <pre><code class="js">> var average = daisy(['12', '14', '16']).average().equals();
+> console.log(average);
+> '14.00'
+
+> var min = daisy([-10, 0, 144]).min().equals();
+> console.log(min);
+> '-10.00'
+
+> var max = daisy([-10, 0, 144]).max().equals();
+> console.log(min);
+> '144.00'
+            </code></pre>
+        </p>
+        <p>
+            Daisy is configurable
+        </p>
+        <p>
+            <pre><code class="js">var options = { supressInvalidNumbers: true };
+> console.log( daisy('12', options).plus('fish').equals() );
+> '12.00'
+
+> options = { supressDivideByZero: true };
+> console.log( daisy('12', options).dividedBy(0).equals() );
+> '0.00'
+
+> options = { printDollarSign: true };
+> console.log( daisy('12', options).equals() );
+> '$12.00'</code></pre>
+        </p>
+        <p>See the full usages <a href="https://github.com/arecker/Daisy/blob/master/README.md">here</a></p>
+        <p>
+            Add daisy to your project by CDN <br>
+            <pre>https://cdn.rawgit.com/arecker/Daisy/master/dist/daisy.min.js</pre>
         </p>
     </div>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.5/highlight.min.js"></script>
