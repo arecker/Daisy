@@ -1,4 +1,4 @@
-# Daisy
+![](http://i.imgur.com/9cVnhPZ.jpg)
 
 [![Built with Grunt](http://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/) [![Build Status](http://travis-ci.org/arecker/Daisy.svg?branch=master)](http://travis-ci.org/arecker/Daisy) [![Coverage Status](http://coveralls.io/repos/arecker/Daisy/badge.svg?branch=master)](https://coveralls.io/r/arecker/Daisy?branch=master) [![License](http://img.shields.io/:license-mit-blue.svg)](https://github.com/arecker/Daisy/blob/master/LICENSE)
 
@@ -30,16 +30,16 @@ var payments = [ 4.00, 2.0, 2.3, 6.0 ],
 Daisy's behavior can be configured
 
 ```javascript
-var answer = daisy(3, { 
-	supressDivideByZero: true 
+var answer = daisy(3, {
+	supressDivideByZero: true
 }).dividedBy(0).equals(); // '0.00'
 
-var total = daisy(3, { 
-	printDollarSign: true 
+var total = daisy(3, {
+	printDollarSign: true
 }).plus(1).equals(); // '$4.00'
 
-var riskyAnswer = daisy('MEH', { 
-	supressInvalidNumbers: true 
+var riskyAnswer = daisy('MEH', {
+	supressInvalidNumbers: true
 }).minus('3').equals(); // '-3.00'
 ```
 
